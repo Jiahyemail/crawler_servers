@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社媒猎手 - 智能内容营销助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header .subtitle {
+            font-size: 24px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 40px 0;
+        }
+
+        .content {
+            padding: 40px 60px;
+        }
+
+        h2 {
+            font-size: 36px;
+            color: #667eea;
+            margin: 50px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: #764ba2;
+        }
+
+        h3 {
+            font-size: 28px;
+            color: #764ba2;
+            margin: 35px 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: '▸';
+            color: #667eea;
+            margin-right: 10px;
+            font-size: 32px;
+        }
+
+        h4 {
+            font-size: 22px;
+            color: #555;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin: 15px 0;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        .overview {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .overview p {
+            font-size: 18px;
+            line-height: 2;
+        }
+
+        .highlight-box {
+            background: #f8f9ff;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-top: 0;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0e7ff 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+            border: 2px dashed #667eea;
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .workflow {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid #e0e7ff;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .workflow-step:hover {
+            background: #e0e7ff;
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 12px 0;
+            line-height: 1.8;
+        }
+
+        .scenario-box {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .scenario-box h4 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        .value-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .value-card {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+        .value-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .value-card h3 {
+            color: #667eea;
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 5px 5px 5px 0;
+        }
+
+        .future-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .future-item {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            header h1 {
+                font-size: 36px;
+            }
+
+            header .subtitle {
+                font-size: 18px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 22px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .value-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji {
+            font-size: 1.3em;
+            margin-right: 8px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        strong {
+            color: #764ba2;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 社媒猎手</h1>
+            <p class="subtitle">智能内容营销助手</p>
+            <p style="margin-top: 20px; font-size: 18px;">让内容创作更简单，让营销推广更高效</p>
+        </header>
+
+        <div class="content">
+            <!-- App 概要 -->
+            <section>
+                <h2><span class="emoji">📱</span>App 概要</h2>
+                <div class="overview">
+                    <p><strong>社媒猎手</strong>是一款专为内容创作者和营销团队打造的智能营销工具。它能帮助您自动发现热门内容、智能改写成原创文章、并一键发布到多个平台。无论您是个人创作者、新媒体运营团队，还是企业营销部门，社媒猎手都能大幅提升您的工作效率，让内容创作和发布变得轻松简单。</p>
+                    
+                    <p>通过智能化的内容采集、AI辅助改写和自动发布功能，您可以：</p>
+                    <ul>
+                        <li><strong>节省80%的内容创作时间</strong></li>
+                        <li><strong>每天产出10倍以上的优质内容</strong></li>
+                        <li><strong>实时掌握热点趋势，抢占流量先机</strong></li>
+                        <li><strong>全自动化运营，解放双手</strong></li>
+                    </ul>
+                </div>
+                <div class="image-placeholder">📊 整体架构示意图</div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 主打亮点 -->
+            <section>
+                <h2><span class="emoji">✨</span>主打亮点</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>🎯 智能内容发现</h3>
+                        <p>自动追踪热门话题和爆款内容，第一时间发现值得借鉴的优质素材</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🤖 AI智能改写</h3>
+                        <p>运用先进的AI技术，将采集的内容智能改写为全新原创文章，保持语义通顺自然</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚡ 一键批量发布</h3>
+                        <p>支持定时发布、批量发布，轻松管理多个账号，实现内容矩阵化运营</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📊 数据可视化看板</h3>
+                        <p>实时查看运营数据，包括采集量、发布量、阅读量等关键指标，助力科学决策</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔄 全自动化流程</h3>
+                        <p>从内容发现到发布全程自动化，设置好任务后即可坐等收益</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 核心功能 -->
+            <section>
+                <h2><span class="emoji">🎨</span>核心功能</h2>
+
+                <div class="highlight-box">
+                    <h3>📈 数据大屏 - 运营状况一目了然</h3>
+                    <p>数据大屏为您呈现完整的内容运营全貌。通过直观的图表和数字，实时展示采集笔记数量、改写完成情况、发布成功率等核心指标。您可以清楚地看到今日新增内容、累计产出内容，以及各个环节的健康状态。</p>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>早会汇报时展示团队成果</li>
+                        <li>实时监控内容生产进度</li>
+                        <li>发现运营瓶颈并及时调整策略</li>
+                    </ul>
+                    <div class="image-placeholder">📊 数据大屏界面示意</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>👥 账号管理 - 批量管理采集账号</h3>
+                    <p>在账号管理页面，您可以添加和管理多个小红书账号，用于内容采集。系统会自动检测账号状态，提醒您哪些账号需要更新或维护。支持批量导入、分组管理，让账号池管理井井有条。</p>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>多账号矩阵运营</li>
+                        <li>账号健康状态监控</li>
+                        <li>快速切换不同账号身份</li>
+                    </ul>
+                    <div class="image-placeholder">👥 账号管理界面示意</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>📋 任务管理 - 定制化内容采集</h3>
+                    <p>任务管理是整个系统的大脑。您可以创建多种类型的采集任务：</p>
+                    <ul>
+                        <li><strong>关键词采集</strong>：根据热门关键词自动搜索相关内容</li>
+                        <li><strong>博主采集</strong>：追踪特定博主的最新发布</li>
+                        <li><strong>链接采集</strong>：批量采集指定文章链接</li>
+                    </ul>
+                    <p>每个任务都可以设置定时执行，比如每天早上8点自动采集最新内容，完全无需人工干预。</p>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>追踪竞品动态</li>
+                        <li>收集行业热点内容</li>
+                        <li>监控特定话题讨论</li>
+                    </ul>
+                    <div class="image-placeholder">📋 任务管理界面示意</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>📝 笔记数据 - 内容素材库</h3>
+                    <p>所有采集到的内容都会汇总在笔记数据库中。您可以查看每篇内容的详细信息，包括标题、正文、图片、点赞数、评论数等。支持按时间、热度、关键词等多维度筛选，快速找到您需要的素材。</p>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>查找优质内容素材</li>
+                        <li>分析爆款内容特征</li>
+                        <li>归档整理行业资料</li>
+                    </ul>
+                    <div class="image-placeholder">📝 笔记数据界面示意</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>✍️ 洗文管理 - AI智能改写</h3>
+                    <p>洗文管理模块是内容创作的核心。系统集成了多种AI模型（GPT、Claude、国产大模型等），可以将采集的内容智能改写为原创文章。您可以：</p>
+                    <ul>
+                        <li>选择不同的改写风格（专业、轻松、活泼等）</li>
+                        <li>批量改写多篇文章</li>
+                        <li>预览改写效果并微调</li>
+                        <li>设置改写模板，统一输出风格</li>
+                    </ul>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>快速产出原创内容</li>
+                        <li>降低创作门槛</li>
+                        <li>保持内容持续输出</li>
+                    </ul>
+                    <div class="image-placeholder">✍️ 洗文管理界面示意</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>📤 公众号发布 - 一键多平台分发</h3>
+                    <p>发布模块让内容分发变得极其简单。添加您的公众号账号后，系统可以自动将改写好的内容按照预设时间发布。支持：</p>
+                    <ul>
+                        <li>定时发布（设置最佳发布时间）</li>
+                        <li>批量发布（一次性发布多篇）</li>
+                        <li>多账号发布（内容矩阵化运营）</li>
+                        <li>发布预览和撤回</li>
+                    </ul>
+                    <h4>适用场景：</h4>
+                    <ul>
+                        <li>规律化内容更新</li>
+                        <li>多账号统一管理</li>
+                        <li>自动化运营公众号</li>
+                    </ul>
+                    <div class="image-placeholder">📤 公众号发布界面示意</div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 关键界面预览 -->
+            <section>
+                <h2><span class="emoji">🖼️</span>关键界面预览</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>界面名称</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>激活页面</strong></td>
+                            <td>首次使用时输入激活码，激活您的专属账号</td>
+                        </tr>
+                        <tr>
+                            <td><strong>登录页面</strong></td>
+                            <td>安全登录系统，支持记住密码功能</td>
+                        </tr>
+                        <tr>
+                            <td><strong>数据大屏</strong></td>
+                            <td>核心运营数据可视化展示，包含KPI指标、任务进度等</td>
+                        </tr>
+                        <tr>
+                            <td><strong>任务列表</strong></td>
+                            <td>查看所有采集任务的运行状态和采集进度</td>
+                        </tr>
+                        <tr>
+                            <td><strong>笔记详情</strong></td>
+                            <td>查看采集内容的完整信息，包括文本、图片、数据</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AI改写界面</strong></td>
+                            <td>选择模型、设置参数、预览改写效果</td>
+                        </tr>
+                        <tr>
+                            <td><strong>发布策略配置</strong></td>
+                            <td>设置自动发布的时间、频率和目标账号</td>
+                        </tr>
+                        <tr>
+                            <td><strong>账号健康监控</strong></td>
+                            <td>实时监控所有账号的状态和可用性</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 用户使用流程 -->
+            <section>
+                <h2><span class="emoji">🔄</span>用户使用流程</h2>
+
+                <h3>新手入门流程（首次使用）</h3>
+                <div class="workflow">
+                    <div class="workflow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">激活账号</div>
+                            <div class="step-desc">输入激活码，开启您的智能营销之旅</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">登录系统</div>
+                            <div class="step-desc">设置安全密码，保护您的账户信息</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">添加采集账号</div>
+                            <div class="step-desc">导入小红书账号信息，建立账号池</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">创建采集任务</div>
+                            <div class="step-desc">设置关键词或博主，定制采集策略</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">等待内容采集</div>
+                            <div class="step-desc">系统自动运行，无需人工干预</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <div class="step-title">查看采集结果</div>
+                            <div class="step-desc">在笔记数据中浏览已采集的内容</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <div class="step-title">AI智能改写</div>
+                            <div class="step-desc">选择内容进行改写，生成原创文章</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <div class="step-title">配置发布策略</div>
+                            <div class="step-desc">添加公众号并设置发布时间</div>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">9</div>
+                        <div class="step-content">
+                            <div class="step-title">自动发布上线</div>
+                            <div class="step-desc">✅ 完成！开始自动化运营</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>日常运营流程（熟练使用）</h3>
+                
+                <div class="scenario-box">
+                    <h4>场景A：追踪竞品动态</h4>
+                    <ol>
+                        <li>创建"关键词任务" → 输入竞品品牌名</li>
+                        <li>设置每日自动采集</li>
+                        <li>每天查看数据大屏了解采集情况</li>
+                        <li>筛选优质内容进行改写</li>
+                        <li>定时发布到自己的公众号</li>
+                    </ol>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>场景B：打造爆款内容</h4>
+                    <ol>
+                        <li>创建"热门关键词任务" → 输入行业热词</li>
+                        <li>筛选点赞数高的爆款内容</li>
+                        <li>批量改写成多篇原创文章</li>
+                        <li>分时段发布，覆盖全天流量</li>
+                    </ol>
+                </div>
+
+                <div class="scenario-box">
+                    <h4>场景C：博主内容监控</h4>
+                    <ol>
+                        <li>创建"博主任务" → 输入目标博主ID</li>
+                        <li>自动跟踪该博主的最新发布</li>
+                        <li>第一时间获取并改写新内容</li>
+                        <li>抢占热点流量先机</li>
+                    </ol>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 应用价值与场景 -->
+            <section>
+                <h2><span class="emoji">💎</span>应用价值与场景</h2>
+
+                <div class="value-cards">
+                    <div class="value-card">
+                        <h3>💰 个人创作者</h3>
+                        <h4>提升创作效率</h4>
+                        <ul>
+                            <li>不再为"写什么"而发愁，每天都有新鲜素材</li>
+                            <li>AI辅助改写，半小时产出一天的内容量</li>
+                            <li>定时发布，解放时间做更重要的事</li>
+                        </ul>
+                        <h4>降低运营成本</h4>
+                        <ul>
+                            <li>无需雇佣专职编辑</li>
+                            <li>一个人可以管理10+公众号</li>
+                            <li>内容成本降低90%</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 20px; background: #f0f9ff; border-color: #0ea5e9;">
+                            <strong>典型案例：</strong>自媒体博主小王，使用社媒猎手后，从每天发1篇文章提升到每天发8篇，阅读量增长5倍，广告收入从月入3千提升到月入2万。
+                        </div>
+                    </div>
+
+                    <div class="value-card">
+                        <h3>🏢 营销团队</h3>
+                        <h4>规模化内容生产</h4>
+                        <ul>
+                            <li>支持多人协作，团队成员各司其职</li>
+                            <li>内容审核机制，确保发布质量</li>
+                            <li>数据看板实时监控，管理者心中有数</li>
+                        </ul>
+                        <h4>精准把握热点</h4>
+                        <ul>
+                            <li>自动发现行业热门话题</li>
+                            <li>第一时间跟进竞品动态</li>
+                            <li>快速产出热点相关内容</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 20px; background: #f0fdf4; border-color: #10b981;">
+                            <strong>典型案例：</strong>某教育机构运营团队，使用社媒猎手后，3人团队管理50个公众号，每月产出1500+篇原创内容，粉丝增长率提升300%。
+                        </div>
+                    </div>
+
+                    <div class="value-card">
+                        <h3>🎯 企业品牌</h3>
+                        <h4>建立内容护城河</h4>
+                        <ul>
+                            <li>持续输出优质内容，占领用户心智</li>
+                            <li>多平台分发，扩大品牌影响力</li>
+                            <li>数据分析支持内容策略优化</li>
+                        </ul>
+                        <h4>降低获客成本</h4>
+                        <ul>
+                            <li>通过优质内容吸引自然流量</li>
+                            <li>减少付费广告依赖</li>
+                            <li>提升用户信任和转化率</li>
+                        </ul>
+                        <div class="highlight-box" style="margin-top: 20px; background: #fef3c7; border-color: #f59e0b;">
+                            <strong>ROI预期：</strong>使用社媒猎手后，企业可节省60%的内容制作成本，内容产量提升10倍，自然流量获客成本降低50%。
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🌟 适用场景总结</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>用户类型</th>
+                            <th>核心痛点</th>
+                            <th>解决方案</th>
+                            <th>预期效果</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>个人自媒体</strong></td>
+                            <td>创作效率低、缺乏灵感</td>
+                            <td>AI改写+定时发布</td>
+                            <td>内容产量提升5-10倍</td>
+                        </tr>
+                        <tr>
+                            <td><strong>新媒体运营</strong></td>
+                            <td>人力成本高、管理混乱</td>
+                            <td>多账号管理+数据看板</td>
+                            <td>3人完成10人的工作</td>
+                        </tr>
+                        <tr>
+                            <td><strong>企业品牌</strong></td>
+                            <td>内容成本高、效果难评估</td>
+                            <td>全流程自动化+数据分析</td>
+                            <td>成本降低60%，ROI提升3倍</td>
+                        </tr>
+                        <tr>
+                            <td><strong>内容创业者</strong></td>
+                            <td>需要快速测试方向</td>
+                            <td>批量改写+多平台发布</td>
+                            <td>快速验证内容方向</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 未来规划 -->
+            <section>
+                <h2><span class="emoji">🚀</span>未来规划</h2>
+
+                <div class="future-section">
+                    <h3>短期计划（3-6个月）</h3>
+                    
+                    <div class="future-item">
+                        <h4>🔹 更多平台支持</h4>
+                        <ul>
+                            <li>新增抖音、快手等短视频平台采集</li>
+                            <li>支持知乎、微博等图文平台</li>
+                            <li>实现真正的全平台内容营销</li>
+                        </ul>
+                    </div>
+
+                    <div class="future-item">
+                        <h4>🔹 AI能力升级</h4>
+                        <ul>
+                            <li>接入更多先进AI模型</li>
+                            <li>支持图片智能生成和编辑</li>
+                            <li>视频内容的智能剪辑和改写</li>
+                        </ul>
+                    </div>
+
+                    <div class="future-item">
+                        <h4>🔹 协作功能增强</h4>
+                        <ul>
+                            <li>多人团队协作模式</li>
+                            <li>内容审核工作流</li>
+                            <li>权限管理和角色分配</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="future-section">
+                    <h3>中长期展望（6-12个月）</h3>
+                    
+                    <div class="future-item">
+                        <h4>🌐 智能推荐引擎</h4>
+                        <ul>
+                            <li>基于大数据分析，智能推荐热门话题</li>
+                            <li>预测内容爆款潜力</li>
+                            <li>个性化推荐改写策略</li>
+                        </ul>
+                    </div>
+
+                    <div class="future-item">
+                        <h4>📱 移动端APP</h4>
+                        <ul>
+                            <li>支持手机端随时随地查看数据</li>
+                            <li>移动端快速审核和发布</li>
+                            <li>接收实时推送通知</li>
+                        </ul>
+                    </div>
+
+                    <div class="future-item">
+                        <h4>🎨 内容质量优化</h4>
+                        <ul>
+                            <li>AI智能配图功能</li>
+                            <li>自动排版美化</li>
+                            <li>SEO优化建议</li>
+                        </ul>
+                    </div>
+
+                    <div class="future-item">
+                        <h4>💹 商业化功能</h4>
+                        <ul>
+                            <li>流量变现指导</li>
+                            <li>广告位智能插入</li>
+                            <li>收益数据分析</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>技术演进方向</h3>
+                <div class="highlight-box">
+                    <p><strong>🧠 更智能的AI</strong><br>
+                    我们将持续跟进最新的AI技术进展，引入更先进的自然语言处理模型，让改写的内容更加自然、更具创意。</p>
+                    
+                    <p><strong>⚡ 更快的处理速度</strong><br>
+                    通过技术架构优化，未来版本将支持更大规模的并发采集和改写，满足大型企业的使用需求。</p>
+                    
+                    <p><strong>🔒 更安全的保障</strong><br>
+                    加强账号安全防护，避免被平台检测，提供更稳定可靠的服务。</p>
+                    
+                    <p><strong>📊 更深入的数据洞察</strong><br>
+                    引入更多维度的数据分析，帮助用户深入理解内容表现，指导创作方向。</p>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- 联系我们 -->
+            <section style="text-align: center; padding: 40px 0;">
+                <h2><span class="emoji">📞</span>联系我们</h2>
+                <p style="font-size: 18px; margin: 30px 0;">如果您在使用过程中遇到任何问题，或者有任何建议和想法，<br>欢迎通过系统内的"问题反馈"功能与我们联系。</p>
+                <p style="font-size: 16px; color: #666; margin-bottom: 30px;">我们承诺在24小时内回复您的每一条反馈。</p>
+                <a href="#" class="cta-button">立即体验</a>
+                <a href="#" class="cta-button" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);">联系客服</a>
+            </section>
+        </div>
+
+        <footer>
+            <p style="font-size: 24px; font-weight: 600; margin-bottom: 15px;">🚀 让内容创作更简单，让营销推广更高效</p>
+            <p style="font-size: 18px; margin-bottom: 30px;">社媒猎手与您同行！</p>
+            <p style="font-size: 14px; opacity: 0.7;">最后更新：2025年12月</p>
+        </footer>
+    </div>
+</body>
+</html>
